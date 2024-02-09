@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import sys
-sys.path.append('/src/RagTime')
+sys.path.append('/src/RagTime/src/app')
 from src.app import utils
 
 class UtilsTest(unittest.TestCase):
