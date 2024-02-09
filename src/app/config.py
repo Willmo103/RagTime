@@ -41,7 +41,7 @@ CHROMA_PATH = os.path.join(DATA_PATH, "vector_db")
 """CHROMA: The path to the vector store files"""
 
 ARCHIVE = os.path.join(PROJECT_ROOT, "archive")
-"""The archive path for backing up previous 
+"""The archive path for backing up previous
 vector store files upon cleaning"""
 
 # make sure all directories exist, create them if not
@@ -97,6 +97,10 @@ DB_URL = os.getenv("DB_URL")
 PARAMS = {}
 """PARAMS: A dictionary of parameters for the project
     loaded from the conf/params.json file"""
+
+PARAMS_FILE = os.path.join(CONF_PATH, "params.json")
+"""PARAMS_FILE: The path to the params.json file"""
+
 # Load the params.json file and create a dict of the parameters
 try:
     with open(os.path.join(CONF_PATH, "params.json"), "r") as f:
@@ -104,6 +108,17 @@ try:
         _log.debug(f"{[(k, i) for k, i in PARAMS.items()]}")
 except FileNotFoundError as e:
     _log.warning("No params.json file found.")
+    with open(os.path.join(CONF_PATH, "example.params.json"), "w") as f:
+        f.write(
+            json.dumps(
+                {
+                    "collections": [],
+                    "models": [],
+                    "data": [],
+                    "vector_stores": [],
+                }
+            )
+        )
 
 if __name__ == "__main__":
     _log.debug(f"PROJECT_ROOT: {PROJECT_ROOT}")
