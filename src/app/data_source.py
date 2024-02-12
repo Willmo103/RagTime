@@ -9,7 +9,7 @@ class DataSource:
         self.document_loader
         self.text_splitter
         self.chunksize
-        self.embedding_model = OllamaEmbeddings(model='mistral:7b-instruct-v0.2-fp16')
+        self.embedding_model = OllamaEmbeddings(model='mistral:7b')
         self.collection_name = collection_name
         self.options = options
         self.documents = None
