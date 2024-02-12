@@ -61,7 +61,7 @@ try:
         log_conf.dictConfig(__conf)
         log.debug("Logging configuration loaded from logging.json")
 except FileNotFoundError as e:
-    log.warning("No logging configuration file found. Using default configuration")
+    log.warning("No logging configuration file found. Using default configuration", e)
     with open(os.path.join(CONF_PATH, "example.logging.json"), "r") as f:
         __conf = json.load(f)
         __conf["handlers"]["file"]["filename"] = os.path.join(
@@ -80,13 +80,14 @@ try:
         pass
 except FileNotFoundError as e:
     _log.getLogger(__name__).warning(
-        "No .env file found. Creating one with default values\nOllama API URL: http://localhost:8000\nDB URL: sqlite:///data/db.sqlite3\nPlease update the .env file with the correct values."
+        "No .env file found. Creating one with default values\nOllama API URL: http://localhost:8000\nDB URL: sqlite:///data/db.sqlite3\nPlease update the .env file with the correct values.",
+        e,
     )
     with open(os.path.join(PROJECT_ROOT, ".env"), "w") as f:
         f.write("OLLAMA_API_URL=http://localhost:8000")
         f.write("\nDB_URL=sqlite:///data/db.sqlite3")
 
-# Load the environment variables and assigne to constants
+# Load the environment variables and assigns to constants
 load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
 OLLAMA_API_URL = os.getenv("OLLAMA_API_URL")  # The base url of the API
 """OLLAMA_API_URL: The base url of the Ollama API"""
@@ -107,7 +108,7 @@ try:
         PARAMS = json.load(f)
         _log.debug(f"{[(k, i) for k, i in PARAMS.items()]}")
 except FileNotFoundError as e:
-    _log.warning("No params.json file found.")
+    _log.warning("No params.json file found.", e)
     with open(os.path.join(CONF_PATH, "example.params.json"), "w") as f:
         f.write(
             json.dumps(

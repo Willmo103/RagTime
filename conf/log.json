@@ -1,0 +1,64 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s %(levelname)s Ln: %(lineno)d - (%(module)s) -> %(message)s",
+            "datefmt": "[%I:%M:%S.%d %p]",
+            "style": "%"
+        },
+        "debug": {
+            "format": "%(asctime)s %(levelname)s\tLn: %(lineno)d (%(name)s > %(module)s > %(funcName)s) -> %(message)s",
+            "datefmt": "[%m%d %I:%M:%S.%d %p]",
+            "style": "%"
+        }
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "formatter": "debug",
+            "filename": "",
+            "mode": "a",
+            "encoding": "utf-8"
+        },
+        "stdout": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        }
+    },
+    "loggers": {
+        "": {
+            "handlers": [
+                "file",
+                "stdout"
+            ],
+            "level": "DEBUG",
+            "propagate": true
+        },
+        "system": {
+            "handlers": [
+                "file"
+            ],
+            "level": "WARNING",
+            "propagate": true
+        },
+        "config": {
+            "handlers": [
+                "file",
+                "stdout"
+            ],
+            "level": "INFO",
+            "propagate": false
+        },
+        "user": {
+            "handlers": [
+                "stdout"
+            ],
+            "level": "WARNING",
+            "propagate": false
+        }
+    }
+}
