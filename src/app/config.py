@@ -1,10 +1,11 @@
 import logging.config as log_conf
 from dotenv import load_dotenv
+from chromadb import Settings
 import logging as log
 import datetime as dt
+import chromadb
 import json
 import os
-
 
 # Initialize the base path of the project
 PROJECT_ROOT = os.path.dirname(
@@ -80,15 +81,17 @@ try:
         pass
 except FileNotFoundError as e:
     _log.getLogger(__name__).warning(
-        "No .env file found. Creating one with default values\nOllama API URL: http://localhost:8000\nDB URL: sqlite:///data/db.sqlite3\nPlease update the .env file with the correct values.",
+        "No .env file found. Creating one with default values\nOllama API URL: http://localhost:11434\nDB URL: sqlite:///data/db.sqlite3\nPlease update the .env file with the correct values.",
         e,
     )
-    with open(os.path.join(PROJECT_ROOT, ".env"), "w") as f:
-        f.write("OLLAMA_API_URL=http://localhost:8000")
+    with open(os.path.join(PROJECT_ROOT, "example.env"), "w") as f:
+        f.write("OLLAMA_API_URL=http://localhost:11434")
         f.write("\nDB_URL=sqlite:///data/db.sqlite3")
+    load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, "example.env"))
+else:
+    load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
 
 # Load the environment variables and assigns to constants
-load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
 OLLAMA_API_URL = os.getenv("OLLAMA_API_URL")  # The base url of the API
 """OLLAMA_API_URL: The base url of the Ollama API"""
 
@@ -114,12 +117,18 @@ except FileNotFoundError as e:
             json.dumps(
                 {
                     "collections": [],
-                    "models": [],
-                    "data": [],
                     "vector_stores": [],
                 }
             )
         )
+_log.info(f"Creating a ChromaDB client at {CHROMA_PATH}")
+CHROMA_CLIENT = chromadb.PersistentClient(
+    path=CHROMA_PATH,
+    settings=Settings(
+        allow_reset=True,
+        anonymized_telemetry=False,
+    ),
+)
 
 if __name__ == "__main__":
     _log.debug(f"PROJECT_ROOT: {PROJECT_ROOT}")

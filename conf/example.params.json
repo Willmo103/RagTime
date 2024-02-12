@@ -1,4 +1,4 @@
 {
-    "CHROMA_COLLECTIONS": []
-    // move as needed
+    "collections": [],
+    "vector_stores": []
 }

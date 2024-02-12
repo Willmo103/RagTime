@@ -1,7 +1,7 @@
 .venv
 .env
 __pycache__
-chroma_*
+data/vector_db/*
 chroma
 .DB_Store
 data/tmp/*
@@ -11,4 +11,4 @@ vector_db/*
 *Demo/
 conf/*
 !example.*
-!log.json
+!logging.json
