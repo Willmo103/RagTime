@@ -1,11 +1,11 @@
 import logging.config as log_conf
+from langchain_community.embeddings import OllamaEmbeddings
 from dotenv import load_dotenv
-from chromadb import Settings
 import logging as log
 import datetime as dt
-import chromadb
 import json
 import os
+
 
 # Initialize the base path of the project
 PROJECT_ROOT = os.path.dirname(
@@ -26,13 +26,14 @@ DATA_PATH = os.path.join(PROJECT_ROOT, "data")
 where raw input data is uploaded. this will be mounted at /data
 the docker container."""
 
+
 LOG_PATH = os.path.join(PROJECT_ROOT, "logs")
 """LOG_PATH: The path to the logs directory
 where the log files are stored."""
 
-UPLOAD_DIR = f"{DATA_PATH}/uploads"
-"""UPLOAD_DIR: The path to the uploads directory
-where uploaded files are stored."""
+CACHE = os.path.join(DATA_PATH, "cache")
+"""CACHE: The path to the cache directory
+where the cache files are stored."""
 
 TMP = os.path.join(DATA_PATH, "tmp")
 """TMP: The path to the tmp directory
@@ -46,7 +47,7 @@ ARCHIVE = os.path.join(PROJECT_ROOT, "archive")
 vector store files upon cleaning"""
 
 # make sure all directories exist, create them if not
-for path in [DATA_PATH, CONF_PATH, LOG_PATH, TMP, UPLOAD_DIR, CHROMA_PATH, ARCHIVE]:
+for path in [DATA_PATH, CONF_PATH, LOG_PATH, TMP, CHROMA_PATH, ARCHIVE, CACHE]:
     if not os.path.exists(path):
         os.makedirs(path)
 
@@ -122,13 +123,17 @@ except FileNotFoundError as e:
             )
         )
 _log.info(f"Creating a ChromaDB client at {CHROMA_PATH}")
-CHROMA_CLIENT = chromadb.PersistentClient(
-    path=CHROMA_PATH,
-    settings=Settings(
-        allow_reset=True,
-        anonymized_telemetry=False,
-    ),
-)
+
+EMBED_MODEL = OllamaEmbeddings(model="mistral:latest")
+"""EMBED_MODEL: The embedding model used to create the vector stores"""
+
+INGESTION_CONFIG = {}
+try:
+    with open(os.path.join(CONF_PATH, "ingestion_config.json"), "r") as f:
+        INGESTION_CONFIG = json.load(f)
+except FileNotFoundError as e:
+    _log.warning("No ingestion.json file found.", e)
+
 
 if __name__ == "__main__":
     _log.debug(f"PROJECT_ROOT: {PROJECT_ROOT}")
@@ -139,3 +144,14 @@ if __name__ == "__main__":
     _log.debug(f"OLLAMA_API_URL: {OLLAMA_API_URL}")
     _log.debug(f"DB_URL: {DB_URL}")
     _log.debug(f"CHROMA: {CHROMA_PATH}")
+    _log.debug(f"ARCHIVE: {ARCHIVE}")
+    _log.debug(f"TMP: {TMP}")
+    try:
+        _log.debug(f"outside_data_path: {PARAMS['outside_data_path']}")
+        try:
+            with open(os.path.join(PARAMS["outside_data_path"], "test.txt"), "w") as f:
+                f.write("This is a test file")
+        except KeyError:
+            ...
+    except KeyError as e:
+        _log.warning("No outside_data_path in params.json", e)

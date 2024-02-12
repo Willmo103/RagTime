@@ -8,7 +8,8 @@ data/tmp/*
 output/*
 logs/*
 vector_db/*
-*Demo/
 conf/*
 !example.*
 !logging.json
+!ingestion_config.json
+/data/cache/*

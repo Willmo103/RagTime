@@ -1,0 +1,96 @@
+{
+    "loader_configs": {
+        "WebBaseLoader": {
+            "chunk": 1200,
+            "overlap": 300
+        },
+        "TextLoader": {
+            "chunk": 800,
+            "overlap": 400
+        },
+        "TextLoaderUnknown": {
+            "chunk": 1000,
+            "overlap": 300
+        },
+        "PyPDFLoader": {
+            "chunk": 500,
+            "overlap": 250
+        },
+        "Docx2txtLoader": {
+            "chunk": 900,
+            "overlap": 300
+        },
+        "CSVLoader": {
+            "chunk": 1500,
+            "overlap": 500
+        },
+        "UnstructuredEPubLoader": {
+            "chunk": 900,
+            "overlap": 300
+        },
+        "UnstructuredWordDocumentLoader": {
+            "chunk": 900,
+            "overlap": 300
+        },
+        "UnstructuredMarkdownLoader": {
+            "chunk": 1500,
+            "overlap": 300
+        },
+        "UnstructuredXMLLoader": {
+            "chunk": 1500,
+            "overlap": 300
+        },
+        "UnstructuredRSTLoader": {
+            "chunk": 1500,
+            "overlap": 300
+        },
+        "UnstructuredExcelLoader": {
+            "chunk": 1500,
+            "overlap": 300
+        }
+    },
+    "known_source_ext": [
+        "go",
+        "py",
+        "java",
+        "sh",
+        "bat",
+        "ps1",
+        "cmd",
+        "js",
+        "ts",
+        "css",
+        "cpp",
+        "hpp",
+        "h",
+        "c",
+        "cs",
+        "sql",
+        "log",
+        "ini",
+        "pl",
+        "pm",
+        "r",
+        "dart",
+        "dockerfile",
+        "env",
+        "php",
+        "hs",
+        "hsc",
+        "lua",
+        "nginxconf",
+        "conf",
+        "m",
+        "mm",
+        "plsql",
+        "perl",
+        "rb",
+        "rs",
+        "db2",
+        "scala",
+        "bash",
+        "swift",
+        "vue",
+        "svelte"
+    ]
+}

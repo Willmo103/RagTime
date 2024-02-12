@@ -1,4 +1,5 @@
 {
     "collections": [],
-    "vector_stores": []
+    "vector_stores": [],
+    "outside_data_path": "C:\\Users\\Public\\Desktop\\RagData\\"
 }
