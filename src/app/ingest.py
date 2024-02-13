@@ -2,7 +2,7 @@
 # Description: ...
 
 from config import EMBED_MODEL, log, PARAMS, INGESTION_CONFIG
-from vec_store import create_new_vector_store
+from vec_store import get_or_create_vec_store
 import os
 from langchain_community.document_loaders import (
     TextLoader,
@@ -78,11 +78,11 @@ def store_data_in_vector_db(data, collection_name, loader_conf) -> bool:
     try:
         # Try to get the existing collection; if not found, create a new one
         try:
-            create_new_vector_store(collection_name).from_texts(
+            get_or_create_vec_store(collection_name).from_texts(
                 texts=texts, metadatas=metadatas
             )
         except Exception:
-            create_new_vector_store(collection_name).add_texts(
+            get_or_create_vec_store(collection_name).add_texts(
                 texts=texts, metadatas=metadatas
             )
     except Exception as e:
@@ -122,7 +122,7 @@ def query_doc(user_question: str, collection_name: str):
     # create an embedding of the user question
     embedding = EMBED_MODEL.embed_query(user_question)
     try:
-        collection = CHROMA_CLIENT.get_collection(name=collection_name)
+        collection = get_or_create_vec_store(collection_name)
         result = collection.query(embedding, k=5)
         return result
     except Exception as e:
