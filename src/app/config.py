@@ -122,7 +122,6 @@ except FileNotFoundError as e:
                 }
             )
         )
-_log.info(f"Creating a ChromaDB client at {CHROMA_PATH}")
 
 EMBED_MODEL = OllamaEmbeddings(model="mistral:latest")
 """EMBED_MODEL: The embedding model used to create the vector stores"""

@@ -15,7 +15,6 @@ from langchain_community.document_loaders import (
     UnstructuredRSTLoader,
     UnstructuredExcelLoader,
 )
-import uuid
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 _log = log.getLogger(__name__)
