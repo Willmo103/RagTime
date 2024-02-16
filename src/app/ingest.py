@@ -102,38 +102,50 @@ def store_doc(file_path, collection_name=None):
         if result:
             _log.info(f"Document {filename} stored in collection {collection_name}")
     except Exception as e:
-        _log.error(f"Error storing document: {e}")
+        _log.exception(f"Error storing document: {e}")
         return None
 
 
 # Adjust main function to pass file paths to store_doc
-def main():
-    # get each folder from the ingestion path
-    for folder in os.listdir(ingestion_path):
-        folder_path = os.path.join(ingestion_path, folder)
-        if os.path.isdir(folder_path):
-            for file in os.listdir(folder_path):
-                file_path = os.path.join(folder_path, file)
-                store_doc(file_path, collection_name=folder)
-
-
-def query_doc(user_question: str, collection_name: str):
-    # create an embedding of the user question
-    embedding = EMBED_MODEL.embed_query(user_question)
+def recursive_store_doc(root_ingestion_path, recurse=False, last_collection_name=None):
     try:
-        collection = get_or_create_vec_store(collection_name)
-        result = collection.query(embedding, k=5)
-        return result
+        for item in os.listdir(root_ingestion_path):
+            folder_path = os.path.join(root_ingestion_path, item)
+            if os.path.isdir(
+                folder_path
+            ):  # Root folder should only ever be filled with folders
+                for file in os.listdir(folder_path):
+                    if os.path.isfile(os.path.join(folder_path, file)):
+                        file_path = os.path.join(folder_path, file)
+                        store_doc(
+                            file_path,
+                            collection_name=item
+                            if last_collection_name is None
+                            else last_collection_name + "_" + item,
+                        )
+                    elif os.path.isdir(os.path.join(folder_path, file)):
+                        recursive_store_doc(
+                            os.path.join(folder_path, file),
+                            recurse=True,
+                            last_collection_name=item
+                            if last_collection_name is None
+                            else last_collection_name + "_" + item,
+                        )
+            elif os.path.isfile(folder_path):
+                if recurse:
+                    store_doc(
+                        folder_path, collection_name=last_collection_name + "_" + item
+                    )
+                log.warning(f"Item {item} is not a folder. Skipping {folder_path}.")
+                continue
+            else:
+                log.warning(
+                    f"Item {item} is not a folder or file. WTF is it?\n\n\t\t'{folder_path}'\n\nYou got some strange stuff there...."
+                )
     except Exception as e:
-        _log.error(f"Error querying document: {e}")
-        return None
+        log.exception(f"Error: {e}")
 
 
 if __name__ == "__main__":
-    main()
-    # while True:
-    #     query = input("Enter your query: ")
-    #     if query == "exit":
-    #         break
-    #     else:
-    #         print(query_doc(query, "CodingDocs"))
+    recursive_store_doc(ingestion_path)
+    # This

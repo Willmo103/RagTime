@@ -1,52 +1,52 @@
 {
     "loader_configs": {
         "WebBaseLoader": {
-            "chunk": 1200,
-            "overlap": 300
+            "chunk": 1500,
+            "overlap": 100
         },
         "TextLoader": {
-            "chunk": 800,
-            "overlap": 400
+            "chunk": 1500,
+            "overlap": 100
         },
         "TextLoaderUnknown": {
             "chunk": 1000,
-            "overlap": 300
+            "overlap": 100
         },
         "PyPDFLoader": {
-            "chunk": 500,
-            "overlap": 250
+            "chunk": 1500,
+            "overlap": 100
         },
         "Docx2txtLoader": {
-            "chunk": 900,
-            "overlap": 300
+            "chunk": 1500,
+            "overlap": 100
         },
         "CSVLoader": {
             "chunk": 1500,
-            "overlap": 500
+            "overlap": 100
         },
         "UnstructuredEPubLoader": {
-            "chunk": 900,
-            "overlap": 300
+            "chunk": 1500,
+            "overlap": 100
         },
         "UnstructuredWordDocumentLoader": {
-            "chunk": 900,
-            "overlap": 300
+            "chunk": 1500,
+            "overlap": 100
         },
         "UnstructuredMarkdownLoader": {
             "chunk": 1500,
-            "overlap": 300
+            "overlap": 100
         },
         "UnstructuredXMLLoader": {
             "chunk": 1500,
-            "overlap": 300
+            "overlap": 100
         },
         "UnstructuredRSTLoader": {
             "chunk": 1500,
-            "overlap": 300
+            "overlap": 100
         },
         "UnstructuredExcelLoader": {
             "chunk": 1500,
-            "overlap": 300
+            "overlap": 100
         }
     },
     "known_source_ext": [

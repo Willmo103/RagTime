@@ -13,3 +13,4 @@ conf/*
 !logging.json
 !ingestion_config.json
 /data/cache/*
+/data/uploads/*
