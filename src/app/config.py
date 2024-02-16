@@ -26,7 +26,6 @@ DATA_PATH = os.path.join(PROJECT_ROOT, "data")
 where raw input data is uploaded. this will be mounted at /data
 the docker container."""
 
-
 LOG_PATH = os.path.join(PROJECT_ROOT, "logs")
 """LOG_PATH: The path to the logs directory
 where the log files are stored."""

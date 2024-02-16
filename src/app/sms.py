@@ -159,4 +159,4 @@ class Thread(Base):
 
 
 Base.metadata.create_all(engine)
-log.debug("Database tables created")
+log.debug("SMS database tables created")
